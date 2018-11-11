@@ -1,16 +1,14 @@
 const fs = require("fs");
 const log = require("./log.js");
-const exec = require("./updataVertion/exec.js");
+const exec = require("./exec.js");
 const lightBranch = require("./updataVertion/lightBranch.js");
 const devBranch = require("./updataVertion/devBranch.js");
 
 const pathes = fs.readdirSync("../");
 const cwd = process.cwd().split(/[\\\/]/).pop();
-const oriBizType = cwd.match(/(app|wxm)-[a-zA-Z0-9]+/); // (app|wxm)-xxx
 
-electron-pc-desktop
-let bizType = oriBizType && oriBizType[0]; // 业务类型
-if (cwd === "desktopapp")  bizType =cwd;
+
+let bizType = cwd;
 let stdinType = null;
 
 const confs ={
@@ -48,15 +46,11 @@ function getBizDir(){
   }
 }
 function getBizType(){
-  if (availableBiz.includes(bizType) || cwd === "desktopapp") {
-    log("提示!").use("bt")("已知业务类型： " + bizType).use("t").end();
-    exec({
-      exec: "git branch",
-      resove: judgeBranch,
-    });
-  } else {
-    log("err!").use("be")("未知业务类型").use("e").end();
-  }
+  log("提示!").use("bt")("业务类型： " + bizType).use("t").end();
+  exec({
+    exec: "git branch",
+    resove: judgeBranch,
+  });
 }
 
 function judgeBranch(stdout) {

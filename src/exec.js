@@ -1,5 +1,5 @@
-const {getType} = require("../read.js");
-const log = require("../log.js");
+const {getType} = require("./read.js");
+const log = require("./log.js");
 const cProcess = require('child_process');
 function myExec(conf){
   const exec = conf && (getType.isFunction(conf.exec) ? conf.exec() : conf.exec);
