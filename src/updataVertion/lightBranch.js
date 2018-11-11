@@ -1,6 +1,7 @@
 const fs = require("fs");
 const log = require("../log.js");
 const exec = require("../exec.js");
+const updatePackageJson = require("./updatePackageJson.js");
 
 // 拉代码 (当前分支|test分支)
 // 添加到提交列表
@@ -14,6 +15,7 @@ module.exports =  function (confs) {
     isLightBranch,
     isDevBranch,
     pushToDevBrance,
+    needPublish,
   } = confs;
   exec.stdinEnd = confs.stdinEnd;
 
@@ -52,6 +54,13 @@ module.exports =  function (confs) {
     },
     pullnowbranch:{
       exec: 'git pull origin ' + branch,
+      resove(){
+        if (needPublish) {
+          updatePackageJson();
+          exec(fns.publish);
+        } else fns.pushdevbranch;
+        return true;
+      },
       next: () => fns.pushdevbranch,
     },
     pushdevbranch:{
@@ -62,11 +71,13 @@ module.exports =  function (confs) {
       exec: 'git checkout ' + branch,
       next: () => fns.xxxx,
     },
+    publish:{
+      exec: 'npm publish',
+      next: () => fns.pushdevbranch,
+    },
     openUrl: {
       exec: "start http://192.168.1.239:8080/jenkins/view/dev/job/dev-tem-app-common/",
       next: ()=> fns.sssss,
-
-
     }
   };
   exec(fns.pullCurBranch);
