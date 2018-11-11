@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "push": "node ./src/addVersion.js",
+    "push-todev": "node ./src/addVersion.js --todev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
