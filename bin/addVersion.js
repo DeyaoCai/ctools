@@ -1,5 +1,5 @@
 #! node
-const exec = require("./exec.js");
+const exec = require("../src/exec.js");
 const arg = [];
 
 process.argv.includes("--todev") && arg.push(" --todev");
