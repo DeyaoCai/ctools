@@ -58,7 +58,7 @@ module.exports =  function (confs) {
         if (needPublish) {
           updatePackageJson();
           exec(fns.publish);
-        } else fns.pushdevbranch;
+        } else exec(fns.pushdevbranch);
         return true;
       },
       next: () => fns.pushdevbranch,
