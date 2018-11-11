@@ -1,6 +1,6 @@
 const fs = require("fs");
 const log = require("../log.js");
-const exec = require("./exec.js");
+const exec = require("../exec.js");
 
 // 拉代码 (当前分支|test分支)
 // 添加到提交列表

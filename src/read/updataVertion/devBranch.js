@@ -1,6 +1,6 @@
 const fs = require("fs");
 const log = require("../log.js");
-const exec = require("./exec.js");
+const exec = require("../exec.js");
 
 function former(timeFormer, timeStamp){
   // 如果不想 创建自定义时间对象，也可以使用格式化方法
