@@ -1,12 +1,12 @@
 {
   "name": "ctools",
-  "version": "2018.11.11-22-00-27",
+  "version": "2018.11.11-22-02-35",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "push-todev-publish": "node ./src/addVersion.js --todev --publish",
-    "push-todev": "node ./src/addVersion.js --todev",
-    "push": "node ./src/addVersion.js",
+    "push-todev-publish": "push --todev --publish",
+    "push-todev": "push --todev",
+    "push": "push",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {

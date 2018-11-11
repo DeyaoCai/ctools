@@ -73,7 +73,15 @@ module.exports =  function (confs) {
     },
     publish:{
       exec: 'npm publish',
-      next: () => fns.pushdevbranch,
+      next: () => fns.saveDev,
+    },
+    saveDev: {
+      exec: "git add .",
+      next: ()=> fns.commitDev,
+    },
+    commitDev: {
+      exec: 'git commit -m "auto commit"',
+      next: ()=> fns.pushdevbranch,
     },
     openUrl: {
       exec: "start http://192.168.1.239:8080/jenkins/view/dev/job/dev-tem-app-common/",
