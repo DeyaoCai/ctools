@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "push": "node ./src/addVersion.js",
+    "push-todev-publish": "node ./src/addVersion.js --todev --publish",
     "push-todev": "node ./src/addVersion.js --todev",
+    "push": "node ./src/addVersion.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
