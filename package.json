@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "testRead": "node ./bin/ctools.js read",
     "push-todev-publish": "push --todev --publish",
     "push-todev": "push --todev",
     "push": "push",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "push": "bin/addVersion.js"
+    "push": "bin/addVersion.js",
+    "ctools": "node ./bin/ctools.js read"
   },
   "repository": {
     "type": "git",

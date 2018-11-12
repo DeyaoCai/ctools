@@ -17,7 +17,7 @@ const compConf = {
   exportReg: "",
   succMsg: "write comp success!",
   exportMode: "es6",
-}
+};
 
 const unitConf = {
   inputPath: ["./src/components/units",],
