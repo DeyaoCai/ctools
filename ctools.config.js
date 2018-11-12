@@ -4,7 +4,7 @@ const toolConf = {
   fileReg: /\.(js)$/,
   importReg: /\/src/,
   exportReg: ".",
-  succMsg: "write comp success!",
+  succMsg: "write tools success!",
   exportMode: "es6",
 }
 module.exports = [

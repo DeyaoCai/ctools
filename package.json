@@ -1,10 +1,10 @@
 {
   "name": "ctools",
-  "version": "2018.11.12-21-54-35",
+  "version": "2018.11.12-22-07-39",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "testRead1": "ctools",
+    "testRead1": "ctools read",
     "testRead": "node ./bin/ctools.js read",
     "push-todev-publish": "push --todev --publish",
     "push-todev": "push --todev",
@@ -14,7 +14,7 @@
   },
   "bin": {
     "push": "bin/addVersion.js",
-    "ctools": "./bin/ctools.js read"
+    "ctools": "bin/ctools.js"
   },
   "repository": {
     "type": "git",

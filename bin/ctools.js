@@ -5,7 +5,8 @@ const exec = require("../src/exec.js");
 const read = require("../src/read.js");
 
 
-const cwd = process.cwd().split(/[\\\/]/).pop();
+const cwd = process.cwd();
+console.log(cwd)
 
 const arv = process.argv;
 if(arv.includes("read")) {
@@ -13,7 +14,7 @@ if(arv.includes("read")) {
   const pathes = fs.readdirSync("./");
   if (pathes.includes("ctools.config.js")){
     try{
-      conf = require("../ctools.config.js");
+      conf = require(cwd + "/ctools.config.js");
     } catch (e) {
       throw("get 'ctools.config.js' fail!");
     }
