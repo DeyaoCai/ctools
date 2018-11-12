@@ -1,14 +1,50 @@
 const exec = require("../../src/exec.js");
 const updatePackageJson = require("./updatePackageJson.js");
-const fns = {
-  // 发布
-  publish: {
-    exec: "npm publish",
-    next: ()=> fns.xxx,
-  },
-}
 // 入口；
-module.exports =  function () {
-  updatePackageJson();
-  exec(fns.publish)
+module.exports =  function (confs) {
+
+  const fns = {
+    pullCurBranch: {
+      exec: () =>"git pull origin " +  confs.branch,
+      next: ()=> fns.pullTest,
+    },
+    pullTest: {
+      exec: () => "git pull origin test",
+      resove: () => {
+        updatePackageJson();
+      },
+      next: ()=> fns.save,
+    },
+    save: {
+      exec: "git add .",
+      next: ()=> fns.commit,
+    },
+    commit: {
+      exec: 'git commit -m "auto commit"',
+      next: ()=> fns.push,
+    },
+    push: {
+      exec: 'git push',
+      resove: () => {
+        if (pushToDevBrance) exec(fns.checkoutdev);
+        else log("end").end();
+      },
+      next: ()=> fns.xxxx,
+    },
+    // 发布
+    publish: {
+      exec: "npm publish",
+      resove: () => {
+        log("end").end();
+      },
+      next: ()=> fns.xxx,
+    },
+  }
+  if(confs.push){
+    exec(fns.pullCurBranch);
+  } else {
+    updatePackageJson();
+    exec(fns.publish);
+  }
+  console.log(confs)
 };

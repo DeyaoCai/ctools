@@ -1,6 +1,6 @@
 {
   "name": "ctools",
-  "version": "2018.11.12-22-07-39",
+  "version": "2018.11.12-22-24-03",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "testRead": "node ./bin/ctools.js read",
     "push-todev-publish": "push --todev --publish",
     "push-todev": "push --todev",
-    "push": "push",
+    "push": "node ./bin/addVersion.js --push",
     "updateCtools": "npm update ctools -g",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

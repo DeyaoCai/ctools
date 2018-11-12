@@ -19,7 +19,7 @@ const confs ={
   isDevBranch: null,
   pushToDevBrance: process.argv.includes("--todev"),
   needPublish: process.argv.includes("--publish"),
-
+  push: process.argv.includes("--push"),
 }
 
 function getBizType(){
