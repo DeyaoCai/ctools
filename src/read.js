@@ -1,15 +1,5 @@
 const fs = require("fs");
-const getType= item => {return Object.prototype.toString.call(item).slice(8,-1);}
-getType.isNumber = item => getType(item) === "Number";
-getType.isString = item => getType(item) === "String";
-getType.isArray = item => getType(item) === "Array";
-getType.isObject = item => getType(item) === "Object";
-getType.isBoolean = item => getType(item) === "Boolean";
-getType.isNull = item => getType(item) === "Null";
-getType.isUndefined = item => getType(item) === "Undefined";
-getType.isFunction = item =>getType(item) === "Function";
-getType.isDate = item =>getType(item) === "Date";
-
+const getType = require("./js/type.js");
 
 function _reatdDir(path, reg, result) { // path 读取的目录， reg 文件匹配的正则， result 为结果集
   const pathes = fs.readdirSync(path);
