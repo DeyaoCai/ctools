@@ -1,4 +1,5 @@
 const exec = require("../../src/exec.js");
+const log = require("../../src/log.js");
 const updatePackageJson = require("./updatePackageJson.js");
 // 入口；
 module.exports =  function (confs) {
@@ -42,5 +43,4 @@ module.exports =  function (confs) {
     updatePackageJson();
     exec(fns.publish);
   }
-  console.log(confs)
 };
