@@ -1,8 +1,7 @@
 {
   "name": "ctools",
-  "version": "2018.11.13-00-19-29",
+  "version": "2018.11.13-00-22-32",
   "description": "",
-  "main": "./dist/index.js",
   "scripts": {
     "build": "webpack",
     "testRead1": "ctools read",
