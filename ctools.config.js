@@ -1,10 +1,10 @@
 const toolConf = {
-  inputPath: ["./src",],
-  outputPath: "./tools.js",
+  inputPath: ["./src/js",],
+  outputPath: "./index.js",
   fileReg: /\.(js)$/,
-  importReg: /\/src/,
+  importReg: /\/src\/js/,
   exportReg: ".",
-  succMsg: "write sss success!",
+  succMsg: "write es6 success!",
   exportMode: "es6",
 }
 module.exports = [

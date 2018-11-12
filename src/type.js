@@ -9,4 +9,5 @@ getType.isNull = item => getType(item) === 'Null';
 getType.isUndefined = item => getType(item) === 'Undefined';
 getType.isFunction = item => getType(item) === 'Function';
 getType.isDate = item => getType(item) === 'Date';
-export default getType;
+
+module.exports = getType;
