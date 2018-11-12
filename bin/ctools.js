@@ -3,11 +3,9 @@ const fs = require("fs");
 const log = require("../src/log.js");
 const exec = require("../src/exec.js");
 const read = require("../src/read.js");
-
-
 const cwd = process.cwd();
-
 const arv = process.argv;
+
 if(arv.includes("read")) {
   let conf;
   const pathes = fs.readdirSync("./");

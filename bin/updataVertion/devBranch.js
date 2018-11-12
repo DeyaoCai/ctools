@@ -12,7 +12,7 @@ module.exports =  function (confs) {
     pullTest: {
       exec: () => "git pull origin test",
       resove: () => {
-        updatePackageJson();
+        if(!confs.notPublish) updatePackageJson();
       },
       next: ()=> fns.save,
     },
@@ -26,6 +26,12 @@ module.exports =  function (confs) {
     },
     push: {
       exec: 'git push',
+      resove(){
+        if(confs.notPublish){
+          log("end").end();
+          return true;
+        }
+      },
       next: ()=> fns.publish,
     },
     // 发布
@@ -39,8 +45,10 @@ module.exports =  function (confs) {
   }
   if(confs.push){
     exec(fns.pullCurBranch);
-  } else {
+  } else if(!confs.notPublish){
     updatePackageJson();
     exec(fns.publish);
+  } else {
+    log.t("no actions!");
   }
 };
