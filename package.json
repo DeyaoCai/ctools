@@ -1,9 +1,10 @@
 {
   "name": "ctools",
-  "version": "2018.11.12-23-59-12",
+  "version": "2018.11.13-00-19-29",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
+    "build": "webpack",
     "testRead1": "ctools read",
     "testRead": "node ./bin/ctools.js read",
     "_push": "node  ./bin/addVersion.js",
@@ -25,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/DeyaoCai/tools/issues"
   },
-  "homepage": "https://github.com/DeyaoCai/tools#readme"
+  "homepage": "https://github.com/DeyaoCai/tools#readme",
+  "devDependencies": {
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  }
 }
