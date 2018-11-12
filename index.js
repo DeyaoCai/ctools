@@ -1,13 +1,13 @@
-import copy from "./src/js/copy.js"
-import Drag from "./src/js/Drag.js"
-import getClass from "./src/js/getClass.js"
-import getStyle from "./src/js/getStyle.js"
-import type from "./src/js/type.js"
+const copy = require("./src/js/copy.js");
+const Drag = require("./src/js/Drag.js");
+const getClass = require("./src/js/getClass.js");
+const getStyle = require("./src/js/getStyle.js");
+const type = require("./src/js/type.js");
 
-export default {
+module.exports = {
 	copy,
 	Drag,
 	getClass,
 	getStyle,
 	type
-}
+};

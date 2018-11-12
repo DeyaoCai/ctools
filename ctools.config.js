@@ -5,7 +5,7 @@ const toolConf = {
   importReg: /\/src/,
   exportReg: "/src",
   succMsg: "write es6 success!",
-  exportMode: "es6",
+  exportMode: "node",
 }
 module.exports = [
   toolConf,
