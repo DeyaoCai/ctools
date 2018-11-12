@@ -1,10 +1,9 @@
 {
   "name": "ctools",
-  "version": "2018.11.13-00-45-30",
+  "version": "2018.11.13-00-51-16",
   "description": "",
   "main": "./index.js",
   "scripts": {
-    "build": "webpack",
     "testRead1": "ctools read",
     "testRead": "node ./bin/ctools.js read",
     "_push": "node  ./bin/addVersion.js",
