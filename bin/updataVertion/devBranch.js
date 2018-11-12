@@ -25,11 +25,7 @@ module.exports =  function (confs) {
     },
     push: {
       exec: 'git push',
-      resove: () => {
-        if (pushToDevBrance) exec(fns.checkoutdev);
-        else log("end").end();
-      },
-      next: ()=> fns.xxxx,
+      next: ()=> fns.publish,
     },
     // 发布
     publish: {
