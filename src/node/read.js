@@ -1,5 +1,5 @@
 const fs = require("fs");
-const getType = require("../js/type.js");
+const getType = require("./type.js");
 
 function _reatdDir(path, reg, result) { // path 读取的目录， reg 文件匹配的正则， result 为结果集
   const pathes = fs.readdirSync(path);
