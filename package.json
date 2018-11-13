@@ -1,6 +1,6 @@
 {
   "name": "ctools",
-  "version": "2018.11.13-20-51-11",
+  "version": "2018.11.13-20-55-54",
   "description": "",
   "main": "./index.js",
   "scripts": {
@@ -26,6 +26,11 @@
     "url": "https://github.com/DeyaoCai/tools/issues"
   },
   "homepage": "https://github.com/DeyaoCai/tools#readme",
+  "dependencies": {
+    "apicache": "^1.2.3",
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  },
   "devDependencies": {
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2"

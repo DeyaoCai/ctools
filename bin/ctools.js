@@ -17,6 +17,8 @@ if(arv.includes("read")) {
     throw "we need a 'read.config.js' file";
   }
 }
-
+if(arv.includes("proxy")) {
+  exec("node ./src/node/app.js");
+}
 
 
