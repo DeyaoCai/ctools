@@ -1,15 +1,12 @@
 {
   "name": "ctools",
-  "version": "2018.11.13-21-41-49",
+  "version": "2018.11.13-21-43-38",
   "description": "",
   "main": "./index.js",
   "scripts": {
-    "testRead1": "ctools read",
-    "testRead": "node ./bin/ctools.js read",
-    "_push": "node  ./bin/addVersion.js",
+    "testRead": "ctools read",
     "push": "push --push",
-    "read": "ctools read",
-    "updateCtools": "npm update ctools -g"
+    "read": "ctools read"
   },
   "bin": {
     "push": "bin/addVersion.js",
