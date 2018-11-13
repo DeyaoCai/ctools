@@ -11,4 +11,3 @@ export default {
 	getStyle,
 	type
 }
-module.exports = require(`./${window ? "js" : "node"}.js`);

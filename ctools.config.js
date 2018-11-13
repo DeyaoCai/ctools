@@ -1,6 +1,6 @@
 const jsToolConf = {
   inputPath: ["./src/js",],
-  outputPath: "./index.js",
+  outputPath: "./js.js",
   fileReg: /\.(js)$/,
   importReg: /\/src/,
   exportReg: "/src",
