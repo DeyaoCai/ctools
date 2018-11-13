@@ -1,5 +1,5 @@
 const fs = require("fs");
-const log = require("../../src/log.js");
+const log = require("../../src/node/log.js");
 function former(timeFormer, timeStamp){
   // 如果不想 创建自定义时间对象，也可以使用格式化方法
   const stamp = timeStamp || this.timeStamp;

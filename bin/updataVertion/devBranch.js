@@ -1,5 +1,5 @@
-const exec = require("../../src/exec.js");
-const log = require("../../src/log.js");
+const exec = require("../../src/node/exec.js");
+const log = require("../../src/node/log.js");
 const updatePackageJson = require("./updatePackageJson.js");
 // 入口；
 module.exports =  function (confs) {

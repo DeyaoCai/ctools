@@ -1,6 +1,6 @@
 const fs = require("fs");
-const log = require("../../src/log.js");
-const exec = require("../../src/exec.js");
+const log = require("../../src/node/log.js");
+const exec = require("../../src/node/exec.js");
 const updatePackageJson = require("./updatePackageJson.js");
 
 // 拉代码 (当前分支|test分支)

@@ -13,8 +13,8 @@
       为什么一个分支参数做加法一个做减法 因为之前的设计就是 dev发版本 ISSUES 提交代码啊；
 */
 const fs = require("fs");
-const log = require("../src/log.js");
-const exec = require("../src/exec.js");
+const log = require("../src/node/log.js");
+const exec = require("../src/node/exec.js");
 const lightBranch = require("./updataVertion/lightBranch.js");
 const devBranch = require("./updataVertion/devBranch.js");
 

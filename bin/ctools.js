@@ -1,8 +1,8 @@
 #! node
 const fs = require("fs");
-const log = require("../src/log.js");
-const exec = require("../src/exec.js");
-const read = require("../src/read.js");
+const log = require("../src/node/log.js");
+const exec = require("../src/node/exec.js");
+const read = require("../src/node/read.js");
 const cwd = process.cwd();
 const arv = process.argv;
 
