@@ -18,7 +18,7 @@ if(arv.includes("read")) {
   }
 }
 if(arv.includes("proxy")) {
-  exec("node ./src/node/app.js");
+  exec({exec: "node ./src/node/app.js"});
 }
 
 
