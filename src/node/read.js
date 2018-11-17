@@ -35,7 +35,7 @@ function writeExportFile(conf){
     importList=result.map(item=>`import ${item.name} from "${item.path.replace(conf.importReg,conf.exportReg)}"`).join("\n");
     exportList=`\n\nexport default {\n\t${result.map(item=>conf.exportFn ? conf.exportFn(item) : item.name).join(",\n\t")}\n}`
   }else if(conf.exportMode === "vueView"){
-    importList = `export default [\n\t`+result.map(item => `{path: '/${conf.bizType}/${item.name}',name: '${item.name}',component(resolve) {require(['${item.path.replace(conf.importReg,conf.exportReg)}'], resolve)}}`).join(",\n\t");
+    importList = `export default [\n\t`+result.map(item => `{path: '${conf.bizType ? ("/" + conf.bizType) : ""}/${item.name}',name: '${item.name}',component(resolve) {require(['${item.path.replace(conf.importReg,conf.exportReg)}'], resolve)}}`).join(",\n\t");
     exportList = "\n]";
   }
   fs.writeFileSync(conf.outputPath, importList + exportList);
