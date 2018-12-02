@@ -1,8 +1,10 @@
 #! node
 const fs = require("fs");
-const log = require("../src/node/log.js");
-const exec = require("../src/node/exec.js");
-const read = require("../src/node/read.js");
+const log = require("../src/log.js");
+const exec = require("../src/exec.js");
+const read = require("../src/read.js");
+const readWx = require("../src/readWx.js");
+
 const cwd = process.cwd();
 const arv = process.argv;
 
@@ -12,7 +14,10 @@ if(arv.includes("read")) {
   if (pathes.includes("ctools.config.js")){
     try{conf = require(cwd + "/ctools.config.js");}
     catch (e) {throw("get 'ctools.config.js' fail!");}
-    conf.forEach(item => read.writeExportFile(item));
+    conf.forEach(item => {
+      if(item.readType === "we") readWx.writeExportFile(item) ;
+      else read.writeExportFile(item) ;
+    });
   } else {
     throw "we need a 'read.config.js' file";
   }
@@ -20,5 +25,3 @@ if(arv.includes("read")) {
 if(arv.includes("proxy")) {
   exec({exec: "node ./src/node/app.js"});
 }
-
-

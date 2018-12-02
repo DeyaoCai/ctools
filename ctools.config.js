@@ -16,7 +16,15 @@ const nodeToolConf = {
   succMsg: "write es6 success!",
   exportMode: "node",
 }
+const weConf = {
+  readType: "we",
+  inputPath: ["./src/tools",],
+  outputPath: "./src/dist",
+  fileReg: /\.(cwx)$/,
+  succMsg: "write sss success!",
+}
 module.exports = [
-  jsToolConf,
+  // jsToolConf,
   // nodeToolConf
+  weConf,
 ];
