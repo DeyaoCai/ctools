@@ -4,7 +4,7 @@
   "description": "",
   "main": "./index.js",
   "scripts": {
-    "testpush-push": "node ./bin/addVersion.js",
+    "testpush-push": "node ./bin/addVersion.js --todev",
     "push": "push --push",
     "testRead": "ctools read",
     "read": "ctools read"
