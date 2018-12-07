@@ -1,4 +1,4 @@
-// #! node
+#! node
 /*
     dev参数
     "push" 发布版本；
@@ -63,7 +63,6 @@ function isUserInputTheRightParams(){
       process.argv.includes("--push") && unexpectedArr.push("--push");
       process.argv.includes("--not-publish") && unexpectedArr.push("--not-publish");
     }
-
     log.t(`we expect params ${arr.join(" | ")} or null, `).w(`but got ${unexpectedArr.join(" ")}!`).end();
 }
 
@@ -73,8 +72,8 @@ function judgeBranch(stdout) {
   const nowBranch = branches.find(item=>/\*/.test(item));
   confs.branch = nowBranch && nowBranch.slice(1);
   log.t(`now branch is ${confs.branch}!`).end();
-  // confs.isLightBranch = /^ISSUES-/.test(confs.branch);
-  confs.isDevBranch = true || /^(dev|test|uat|master)$/.test(confs.branch);
+  confs.isLightBranch = /^ISSUES-/.test(confs.branch);
+  confs.isDevBranch = /^(dev|test|uat|master)$/.test(confs.branch);
 
   if (!isUserInputTheRightParams()) return true;
 
