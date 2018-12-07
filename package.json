@@ -6,6 +6,7 @@
   "scripts": {
     "testRead": "ctools read",
     "push": "push --push",
+    "testpush": "node ./bin/addVersion.js",
     "read": "ctools read"
   },
   "bin": {
