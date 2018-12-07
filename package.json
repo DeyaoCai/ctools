@@ -1,10 +1,10 @@
 {
   "name": "ctools",
-  "version": "2018.12.02-22-21-45",
+  "version": "2018.12.07-15-23-29",
   "description": "",
   "main": "./index.js",
   "scripts": {
-    "testpush-push": "node ./bin/addVersion.js --not-publish",
+    "testpush-push": "node ./bin/addVersion.js --push",
     "push": "push --push",
     "testRead": "ctools read",
     "read": "ctools read"
