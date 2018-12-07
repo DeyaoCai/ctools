@@ -30,7 +30,7 @@ const confs ={
   pushType: null,
   isLightBranch: null,
   isDevBranch: null,
-  pushToDevBrance: process.argv.includes("--todev"),
+  pushToDevBrance: process.argv.includes("--publish") || process.argv.includes("--todev"),
   needPublish: process.argv.includes("--publish"),
 
   push: process.argv.includes("--push"),
