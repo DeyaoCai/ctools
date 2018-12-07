@@ -44,7 +44,7 @@ function writeExportFile(conf){
 
   result.forEach(item=>{
     const text = fs.readFileSync(item.path, "utf-8");
-    const filePath = item.path.replace(conf.inputPath, conf.outputPath).replace(/\.cwx/, "");
+    const filePath = item.path.replace(conf.inputPath, conf.outputPath).replace(conf.fileReg, "");
     const fileName = filePath + "/" + item.name;
     try{makeDir(filePath);}catch(e){};
     const json = text.match(/(<script role="json">)([\t\n\r]|.)*?(<\/script>)/g);
