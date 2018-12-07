@@ -1,4 +1,4 @@
-// #! node
+#! node
 /*
     dev参数
     "push" 发布版本；
@@ -33,7 +33,7 @@ const confs ={
   pushToDevBrance: process.argv.includes("--publish") || process.argv.includes("--todev"),
   needPublish: process.argv.includes("--publish"),
 
-  push: process.argv.includes("--push"),
+  push: process.argv.includes("--not-publish") || process.argv.includes("--push"),
   notPublish: process.argv.includes("--not-publish"),
 };
 
@@ -53,17 +53,16 @@ function isUserInputTheRightParams(){
       if(!confs.pushToDevBrance && !confs.needPublish) return true;
       arr.push("--push");
       arr.push("--not-publish");
-      confs.pushToDevBrance && unexpectedArr.push("--todev");
-      confs.needPublish && unexpectedArr.push("--publish");
+        process.argv.includes("--todev") && unexpectedArr.push("--todev");
+        process.argv.includes("--publish") && unexpectedArr.push("--publish");
     }
     if(confs.isLightBranch){
       if(!confs.push && !confs.notPublish) return true;
       arr.push("--todev");
       arr.push("--publish");
-      confs.push && unexpectedArr.push("--push");
-      confs.notPublish && unexpectedArr.push("--not-publish");
+      process.argv.includes("--push") && unexpectedArr.push("--push");
+      process.argv.includes("--not-publish") && unexpectedArr.push("--not-publish");
     }
-
     log.t(`we expect params ${arr.join(" | ")} or null, `).w(`but got ${unexpectedArr.join(" ")}!`).end();
 }
 
