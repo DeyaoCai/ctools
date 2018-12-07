@@ -1,7 +1,7 @@
 const fs = require("fs");
 const getType = require("./type.js");
 
-function _reatdDir(path, reg, result) { // path 读取的目录， reg 文件匹配的正则， result 为结果集
+function _readDir(path, reg, result) { // path 读取的目录， reg 文件匹配的正则， result 为结果集
   const pathes = fs.readdirSync(path);
   const fileReg = /\./;
   pathes.forEach(item => {
@@ -10,13 +10,13 @@ function _reatdDir(path, reg, result) { // path 读取的目录， reg 文件匹
         path: path + "/" + item, // 路径
         name: item.replace(reg, ""), // 文件名
       });}
-    } else _reatdDir(path + "/" + item, reg, result); // 文件夹的话 就往下读取
+    } else _readDir(path + "/" + item, reg, result); // 文件夹的话 就往下读取
   })
 }
 
-function reatdDrir(path, reg) { // path 读取的目录， reg 文件匹配的正则 返回一个 读取完的数组
+function readDir(path, reg) { // path 读取的目录， reg 文件匹配的正则 返回一个 读取完的数组
   const result = [];
-  _reatdDir(path, reg, result);
+  _readDir(path, reg, result);
   return result;
 }
 
@@ -26,7 +26,7 @@ function writeExportFile(conf){
   else if (getType.isArray(conf.inputPath)) inputPath = conf.inputPath;
   else return;
 
-  const result = Array.prototype.concat.apply([],inputPath.map(item => reatdDrir(item, conf.fileReg)));
+  const result = Array.prototype.concat.apply([],inputPath.map(item => readDir(item, conf.fileReg)));
   let importList,exportList;
   if (conf.exportMode === "node"){
     importList = result.map(item => `const ${item.name} = require("${item.path.replace(conf.importReg,conf.exportReg)}");`).join("\n");
@@ -44,7 +44,7 @@ function writeExportFile(conf){
 
 
 module.exports = {
-  reatdDrir,
+  readDir,
   writeExportFile,
   getType,
 }

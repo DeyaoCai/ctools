@@ -13,7 +13,10 @@ if(arv.includes("read")) {
   const pathes = fs.readdirSync("./");
   if (pathes.includes("ctools.config.js")){
     try{conf = require(cwd + "/ctools.config.js");}
-    catch (e) {throw("get 'ctools.config.js' fail!");}
+    catch (e) {
+      log.t("get 'ctools.config.js' fail!");
+      throw(e);
+    }
     conf.forEach(item => {
       if(item.readType === "we") readWx.writeExportFile(item) ;
       else read.writeExportFile(item) ;
