@@ -39,9 +39,7 @@ function writeExportFile(conf){
   if (getType.isString(conf.inputPath)) inputPath = [conf.inputPath];
   else if (getType.isArray(conf.inputPath)) inputPath = conf.inputPath;
   else return;
-
   const result = Array.prototype.concat.apply([],inputPath.map(item => readDir(item, conf.fileReg)));
-
   result.forEach(item=>{
     const text = fs.readFileSync(item.path, "utf-8");
     const filePath = item.path.replace(conf.inputPath, conf.outputPath).replace(conf.fileReg, "");
