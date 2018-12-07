@@ -4,7 +4,7 @@
   "description": "",
   "main": "./index.js",
   "scripts": {
-    "light-publish": "node ./bin/addVersion.js",
+    "light-publish": "node ./bin/addVersion.js --publish",
     "push": "push --push",
     "testRead": "ctools read",
     "read": "ctools read"
