@@ -32,9 +32,11 @@ const confs ={
   isDevBranch: null,
   pushToDevBrance: process.argv.includes("--todev"),
   needPublish: process.argv.includes("--publish"),
+
   push: process.argv.includes("--push"),
   notPublish: process.argv.includes("--not-publish"),
-}
+};
+
 
 function getBizType(){
   log("提示!").use("bt")("业务类型： " + bizType).use("t").end();
@@ -44,6 +46,28 @@ function getBizType(){
   });
 }
 
+function isUserInputTheRightParams(){
+    const arr = [];
+    const unexpectedArr =[];
+    if(confs.isDevBranch){
+      if(!confs.pushToDevBrance && !confs.needPublish) return true;
+      arr.push("--push");
+      arr.push("--not-publish");
+      confs.pushToDevBrance && unexpectedArr.push("--todev");
+      confs.needPublish && unexpectedArr.push("--publish");
+    }
+    if(confs.isLightBranch){
+      if(!confs.push && !confs.notPublish) return true;
+      arr.push("--todev");
+      arr.push("--publish");
+      confs.push && unexpectedArr.push("--push");
+      confs.notPublish && unexpectedArr.push("--not-publish");
+    }
+
+    log.t(`we expect params ${arr.join(" | ")} or null, `).w(`but got ${unexpectedArr.join(" ")}!`).end();
+}
+
+
 function judgeBranch(stdout) {
   const branches = stdout.replace(/ /g,"").split(/\n/);
   const nowBranch = branches.find(item=>/\*/.test(item));
@@ -51,6 +75,9 @@ function judgeBranch(stdout) {
   log.t(`now branch is ${confs.branch}!`).end();
   confs.isLightBranch = /^ISSUES-/.test(confs.branch);
   confs.isDevBranch = /^(dev|test|uat|master)$/.test(confs.branch);
+
+  if (!isUserInputTheRightParams()) return true;
+
   if (confs.isLightBranch) {
     lightBranch(confs);
     return true;
