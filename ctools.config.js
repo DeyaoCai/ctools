@@ -18,6 +18,12 @@ const nodeToolConf = {
 }
 const weConf = {
   readType: "we",
+  fileType: {
+    tempelate: "html",
+    style: "css",
+    js: "js",
+    json: "json"
+  },
   inputPath: ["./src/tools",],
   outputPath: "./src/dist",
   fileReg: /\.(cwx)$/,

@@ -34,6 +34,15 @@ function makeDir(dir) {
   _makeDir(now, list)
 }
 
+
+function _getType(conf, type){
+  return conf[type] || type;
+}
+function makeGetType(conf) {
+    return type => _getType(conf, type);
+}
+
+
 function writeExportFile(conf){
   let inputPath = [];
   if (getType.isString(conf.inputPath)) inputPath = [conf.inputPath];
@@ -53,7 +62,7 @@ function writeExportFile(conf){
       fileName + ".json",
       JSON.stringify(eval("("+json[0].replace(/<script role="json">/g,"").replace(/<\/script>/g,"").replace(/export default/g,"") + ")"))
     );
-    js && fs.writeFileSync(fileName + ".js", js[0].replace(/<script>/g,"").replace(/<\/script>/g,""));
+    js && fs.writeFileSync(`fileName + .${conf.fileType && conf.fileType.js || "js"}`, js[0].replace(/<script>/g,"").replace(/<\/script>/g,""));
     style && fs.writeFileSync(fileName + ".wxss", style[0].replace(/<style>/g,"").replace(/<\/style>/g,""));
     template && fs.writeFileSync(fileName + ".wxml", template[0].replace(/<template>/g,"").replace(/<\/template>/g,""));
   })
