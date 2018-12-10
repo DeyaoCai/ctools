@@ -53,7 +53,7 @@ function makeGetFileType(conf) {
 
 
 function writeExportFile(conf){
-  const getFileType = makeGetFileType(conf || {});
+  const getFileType = makeGetFileType(conf.fileType || {});
   let inputPath = [];
   if (getType.isString(conf.inputPath)) inputPath = [conf.inputPath];
   else if (getType.isArray(conf.inputPath)) inputPath = conf.inputPath;

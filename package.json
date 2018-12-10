@@ -6,8 +6,8 @@
   "scripts": {
     "light-publish": "node ./bin/addVersion.js --publish",
     "push": "push --push",
-    "testRead": "ctools read",
-    "read": "ctools read"
+    "read": "ctools read",
+    "testRead": "node ./bin/ctools.js read"
   },
   "bin": {
     "push": "bin/addVersion.js",

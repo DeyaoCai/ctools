@@ -17,10 +17,10 @@ const nodeToolConf = {
   exportMode: "node",
 }
 const weConf = {
-  readType: "we",
+  readType: "single file",
   fileType: {
-    tempelate: "html",
-    style: "css",
+    html: "wxml",
+    css: "wxss",
     js: "js",
     json: "json"
   },

@@ -18,7 +18,7 @@ if(arv.includes("read")) {
       throw(e);
     }
     conf.forEach(item => {
-      if(item.readType === "we") readWx.writeExportFile(item) ;
+      if(item.readType === "single file") readWx.writeExportFile(item) ;
       else read.writeExportFile(item) ;
     });
   } else {
