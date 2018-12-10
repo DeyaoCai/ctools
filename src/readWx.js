@@ -34,16 +34,26 @@ function makeDir(dir) {
   _makeDir(now, list)
 }
 
+const fileTypeMap = {
+  json: "json",
+  script: "js",
+  js: "js",
+  tempelate: "html",
+  html: "html",
+  css: "css",
+  style: "css"
+};
 
-function _getType(conf, type){
+function _getFileType(conf, type){
   return conf[type] || type;
 }
-function makeGetType(conf) {
-    return type => _getType(conf, type);
+function makeGetFileType(conf) {
+  return type => _getFileType(conf, type);
 }
 
 
 function writeExportFile(conf){
+  const getFileType = makeGetFileType(conf || {});
   let inputPath = [];
   if (getType.isString(conf.inputPath)) inputPath = [conf.inputPath];
   else if (getType.isArray(conf.inputPath)) inputPath = conf.inputPath;
@@ -59,12 +69,12 @@ function writeExportFile(conf){
     const style = text.match(/(<style>)([\t\n\r]|.)*?(<\/style>)/g);
     const template = text.match(/(<template>)([\t\n\r]|.)*?(<\/template>)/g);
     json && fs.writeFileSync(
-      fileName + ".json",
+      `${fileName}.${getFileType("json")}`,
       JSON.stringify(eval("("+json[0].replace(/<script role="json">/g,"").replace(/<\/script>/g,"").replace(/export default/g,"") + ")"))
     );
-    js && fs.writeFileSync(`fileName + .${conf.fileType && conf.fileType.js || "js"}`, js[0].replace(/<script>/g,"").replace(/<\/script>/g,""));
-    style && fs.writeFileSync(fileName + ".wxss", style[0].replace(/<style>/g,"").replace(/<\/style>/g,""));
-    template && fs.writeFileSync(fileName + ".wxml", template[0].replace(/<template>/g,"").replace(/<\/template>/g,""));
+    js && fs.writeFileSync(`${fileName}.${getFileType("js")}`, js[0].replace(/<script>/g,"").replace(/<\/script>/g,""));
+    style && fs.writeFileSync(`${fileName}.${getFileType("css")}`, style[0].replace(/<style>/g,"").replace(/<\/style>/g,""));
+    template && fs.writeFileSync(`${fileName}.${getFileType("html")}`, template[0].replace(/<template>/g,"").replace(/<\/template>/g,""));
   })
 
   // fs.writeFileSync(conf.outputPath, importList + exportList);
