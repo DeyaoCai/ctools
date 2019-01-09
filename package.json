@@ -1,6 +1,6 @@
 {
   "name": "ctools",
-  "version": "2018.12.07-17-01-40",
+  "version": "2019.01.09-23-55-03",
   "description": "",
   "main": "./index.js",
   "scripts": {
@@ -9,7 +9,6 @@
     "read": "ctools read",
     "testRead": "node ./bin/ctools.js read"
   },
-
   "bin": {
     "push": "bin/addVersion.js",
     "ctools": "bin/ctools.js"
