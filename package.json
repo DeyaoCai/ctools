@@ -9,11 +9,11 @@
     "read": "ctools read",
     "testRead": "node ./bin/ctools.js read"
   },
-
   "bin": {
     "push": "bin/addVersion.js",
     "ctools": "bin/ctools.js"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DeyaoCai/tools.git"
