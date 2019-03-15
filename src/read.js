@@ -37,13 +37,13 @@ function writeExportFile(conf) {
     exportList = `\n\nmodule.exports = {${result.map(item => "\n  " + item.name + "").join(",")}\n};`;
   } else if (conf.exportMode === "es6") {
     importList = result.map(item => `import ${item.name} from "${item.path.replace(conf.importReg, conf.exportReg)}";`).join("\n");
-    midList = result.map(item => `export ${item.name};`).join("\n");
-    exportList = `\n\nexport default {\n  ${result.map(item => conf.exportFn ? conf.exportFn(item) : item.name).join(",\n\t")}\n}`
+    midList = `\n\nexport {\n  ${result.map(item => conf.exportFn ? conf.exportFn(item) : item.name).join(",\n  ")}\n}`;
+    exportList = `\n\nexport default {\n  ${result.map(item => conf.exportFn ? conf.exportFn(item) : item.name).join(",\n  ")}\n}`
   } else if (conf.exportMode === "vueView") {
     importList = `export default [\n  ` + result.map(item => `{path: '${conf.bizType ? ("/" + conf.bizType) : ""}/${item.name}',name: '${item.name.toLowerCase()}',component(resolve) {require(['${item.path.replace(conf.importReg, conf.exportReg)}'], resolve)}}`).join(",\n\t");
     exportList = "\n]";
   }
-  fs.writeFileSync(conf.outputPath, `${importList}\n\n${midList}\n${exportList}`);
+  fs.writeFileSync(conf.outputPath, `${importList}${midList}${exportList}`);
   console.log(conf.succMsg);
 }
 
