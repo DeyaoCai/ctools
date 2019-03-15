@@ -10,4 +10,5 @@ export default {
 	getClass,
 	getStyle,
 	type
-}
+};
+
