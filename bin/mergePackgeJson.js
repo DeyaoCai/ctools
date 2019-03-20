@@ -50,20 +50,19 @@ function getPackage(list = []) {
     );
   });
   fs.writeFileSync(`${cwd}/package.json`, JSON.stringify(baseConf));
-  console.log(`write 'package.json' success!`);
+  log("succ:").use("bs")(`write 'package.json' success!`).use("s").end();
 
   fs.writeFileSync(`${cwd}/ctools.conf/webpack.conf.json`, JSON.stringify({
     resolve: {extensions: ['.js', '.vue', '.json'], alias: webpackConfAlias}
   }));
-  console.log(`write 'webpack.conf.json' success!`);
+  log("succ:").use("bs")(`write 'webpack.conf.json' success!`).use("s").end();
 
   try {
     const getMainJsTemplateConf = require(`${cwd}/ctools.conf/webpack.conf.js`).getMainJsTemplateConf(confList, readTemMainTemp.smallHump);
-    const fullPath = `${cwd}${getMainJsTemplateConf.outPutPath}`
+    const fullPath = `${cwd}${getMainJsTemplateConf.outPutPath}`;
     fs.writeFileSync(fullPath, getMainJsTemplateConf.content);
-    console.log(`write '${fullPath}' success!`);
+    log("succ:").use("bs")(`write '${fullPath}' success!`).use("s").end();
   } catch (e) {
-
     console.log(e);
   }
 
@@ -71,11 +70,11 @@ function getPackage(list = []) {
 
 if (arv.includes("install")) {
   cProcess.execSync("npm install");
-  console.log(`install package success!`);
+  log("succ:").use("bs")(`install package success!`).use("s").end();
 }
 if (arv.includes("updatePackageJson")) {
   getPackage();
-  console.log(`update package success!`);
+  log("succ:").use("bs")(`update package success!`).use("s").end();
 }
 
 if (arv.includes("getCodes")) {
@@ -89,7 +88,7 @@ if (arv.includes("getCodes")) {
   repertoryList.forEach(item => {
     const repertory = item.repertory;
     const userBranch = item.branch;
-    console.log(repertory);
+    log(repertory).use("t").end();
     const branch = userBranch || (branchArv && branchArv.replace(branchReg, ""));
     const branchRegExp = branch ? new RegExp(branch) : null;
 
@@ -98,7 +97,7 @@ if (arv.includes("getCodes")) {
     packagePatth.push(outPutPath);
     try {
       cProcess.execSync(`git clone ${repertory}`);
-      console.log(`clone '${repertory}' success!`);
+      log("succ:").use("bs")(`clone '${repertory}' success!`).use("s").end();
     } catch (e) {
     }
 
@@ -123,6 +122,6 @@ if (arv.includes("getCodes")) {
     }
 
   });
-  console.log(`clone repertory complete!`);
+  log("succ:").use("bs")(`clone 'clone repertory complete!`).use("s").end();
   getPackage(packagePatth);
 }
