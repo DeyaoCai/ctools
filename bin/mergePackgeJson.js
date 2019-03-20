@@ -8,6 +8,7 @@ const readTemMainTemp = require("../src/readTemMainTemp.js");
 const cwd = process.cwd();
 const arv = process.argv;
 let repertoryDirName;
+
 try {
   repertoryDirName = require(`${cwd}/ctools.conf/webpack.conf.js`).repertoryPath;
 } catch (e) {
@@ -19,7 +20,6 @@ try {
 } catch (e) {
   baseMap = {}
 }
-;
 
 function setWebPackConfAlias(name, conf, fullPath) {
   const map = baseMap[name] || {};
@@ -57,11 +57,16 @@ function getPackage(list = []) {
   }));
   console.log(`write 'webpack.conf.json' success!`);
 
-  const excludeList = [`wxm-app`];
-  readTemMainTemp.writeExportFile({
-    names: confList.map(item => item.name).filter(item => !excludeList.includes(item)),
-    outPutPath: `/src/main.js`,
-  });
+  try {
+    const getMainJsTemplateConf = require(`${cwd}/ctools.conf/webpack.conf.js`).getMainJsTemplateConf(confList, readTemMainTemp.smallHump);
+    const fullPath = `${cwd}${getMainJsTemplateConf.outPutPath}`
+    fs.writeFileSync(fullPath, getMainJsTemplateConf.content);
+    console.log(`write '${fullPath}' success!`);
+  } catch (e) {
+
+    console.log(e);
+  }
+
 }
 
 if (arv.includes("install")) {
