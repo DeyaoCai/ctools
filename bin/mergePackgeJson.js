@@ -77,6 +77,11 @@ if (arv.includes("updatePackageJson")) {
   log("succ:").use("bs")(`update package success!`).use("s").end();
 }
 
+if (arv.includes("getDemo")) {
+  cProcess.execSync(`git clone https://github.com/DeyaoCai/vue-dev-tool.git`);
+  log("succ:").use("bs")(`clone https://github.com/DeyaoCai/vue-dev-tool.git success!`).use("s").end();
+}
+
 if (arv.includes("getCodes")) {
   const packagePatth = [];
   const branchReg = /^--branch-/;
@@ -120,7 +125,6 @@ if (arv.includes("getCodes")) {
       }
       process.chdir(`${cwd}/${repertoryDirName}`);
     }
-
   });
   log("succ:").use("bs")(`clone 'clone repertory complete!`).use("s").end();
   getPackage(packagePatth);
