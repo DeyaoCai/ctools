@@ -65,7 +65,14 @@ function getPackage(list = []) {
   } catch (e) {
     console.log(e);
   }
-
+  try {
+    const getIndexHtmlTemplateConf = require(`${cwd}/ctools.conf/webpack.conf.js`).getIndexHtmlTemplateConf(confList, readTemMainTemp.smallHump);
+    const fullPath = `${cwd}${getIndexHtmlTemplateConf.outPutPath}`;
+    fs.writeFileSync(fullPath, getIndexHtmlTemplateConf.content);
+    log("succ:").use("bs")(`write '${fullPath}' success!`).use("s").end();
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 if (arv.includes("install")) {
