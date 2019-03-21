@@ -1,7 +1,10 @@
 #! node
 const fs = require("fs");
+const path = require("path");
 const log = require("../src/log.js");
 const exec = require("../src/exec.js");
+const type = require("../src/type.js");
+
 const cProcess = require("child_process")
 const readTemMainTemp = require("../src/readTemMainTemp.js");
 
@@ -58,20 +61,18 @@ function getPackage(list = []) {
   log("succ:").use("bs")(`write 'webpack.conf.json' success!`).use("s").end();
 
   try {
-    const getMainJsTemplateConf = require(`${cwd}/ctools.conf/webpack.conf.js`).getMainJsTemplateConf(confList, readTemMainTemp.smallHump);
-    const fullPath = `${cwd}${getMainJsTemplateConf.outPutPath}`;
-    fs.writeFileSync(fullPath, getMainJsTemplateConf.content);
-    log("succ:").use("bs")(`write '${fullPath}' success!`).use("s").end();
+    const templateConfsPath = require(`${cwd}/ctools.conf/webpack.conf.js`).getTemplateConfs;
+    let templateConfs = require(`${cwd}/ctools.conf/templateFns/${templateConfsPath}`)(confList, readTemMainTemp.smallHump);
+    if (!type.isArray(templateConfs)) {
+      templateConfs = [templateConfs];
+    }
+    templateConfs.forEach(conf => {
+      const fullPath = `${cwd}${conf.outPutPath}`;
+      fs.writeFileSync(fullPath, conf.content);
+      log("succ:").use("bs")(`write '${fullPath}' success!`).use("s").end();
+    });
   } catch (e) {
-    console.log(e);
-  }
-  try {
-    const getIndexHtmlTemplateConf = require(`${cwd}/ctools.conf/webpack.conf.js`).getIndexHtmlTemplateConf(confList, readTemMainTemp.smallHump);
-    const fullPath = `${cwd}${getIndexHtmlTemplateConf.outPutPath}`;
-    fs.writeFileSync(fullPath, getIndexHtmlTemplateConf.content);
-    log("succ:").use("bs")(`write '${fullPath}' success!`).use("s").end();
-  } catch (e) {
-    console.log(e);
+    // console.log(e);
   }
 }
 
@@ -95,7 +96,7 @@ if (arv.includes("getCodes")) {
   const branchArv = arv.find(item => branchReg.test(item));
 
   process.chdir(`${cwd}/${repertoryDirName}`);
-  const repertoryList = require(`${cwd}/ctools.conf/webpack.conf.js`).repertoryList;
+  const repertoryList = require(`${cwd}/ctools.conf/webpack.conf.js`).repertoryList.filter(item => !item.disabled);
 
   repertoryList.forEach(item => {
     const repertory = item.repertory;
