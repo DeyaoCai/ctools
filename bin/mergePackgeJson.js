@@ -38,16 +38,16 @@ function getPackage(list = []) {
     name && setWebPackConfAlias(name, webpackConfAlias, list[index]);
     const dependencies = conf.dependencies;
     const devDependencies = conf.devDependencies;
-    const repository = conf.repository;
+    // const repository = conf.repository;
     dependencies && Object.keys(dependencies).forEach(key =>
       (baseConf.dependencies[key] = dependencies[key])
     );
     devDependencies && Object.keys(devDependencies).forEach(key =>
       (baseConf.dependencies[key] = devDependencies[key])
     );
-    repository && Object.keys(repository).forEach(key =>
-      (baseConf.repository[key] = repository[key])
-    );
+    // repository && Object.keys(repository).forEach(key =>
+    //   (baseConf.repository ? (baseConf.repository[key] = repository[key]) : (baseConf.repository = repository))
+    // );
   });
   fs.writeFileSync(`${cwd}/package.json`, JSON.stringify(baseConf));
   log("succ:").use("bs")(`write 'package.json' success!`).use("s").end();
