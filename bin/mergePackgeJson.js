@@ -108,7 +108,7 @@ function getPackage(list = []) {
 }
 
 function setWebPackConfAlias(conf, fullPath, packageJson) {
-  const name = fullPath.split(/(\\|\/)/).pop();
+  const name = packageJson.name;
   const map = baseMap[name] || {};
   if (/wxm/.test(name) || /(app-|-app`)/g.test(name)) {
     const srcName = /wxm/.test(name) ? name : name.replace(/(app-|-app`)/g, "");
