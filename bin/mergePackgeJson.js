@@ -54,16 +54,23 @@ if (arv.includes("getCodes")) {
       try {
         process.chdir(outPutPath);
         const result = cProcess.execSync(`git branch -r`, {encoding: 'utf8'});
+
+        console.log(!branchRegExp.test(result))
         if (!branchRegExp.test(result)) {
+          // 检出 master 分支
+          console.log('// 检出 master 分支')
           try {cProcess.execSync(`git checkout master`);} catch (e) {}
+          // 检出预设置分支
           try {cProcess.execSync(`git branch ${branch}`);} catch (e) {}
         }
+        // 切换到预设值分支
         cProcess.execSync(`git checkout ${branch}`);
-      } catch (e) {}
+      } catch (e) {
+      }
       process.chdir(`${cwd}/${repertoryDirName}`);
     }
   });
-  log("succ:").use("bs")(`clone 'clone repertory complete!`).use("s").end();
+  log("succ:").use("bs")(`clone repertory complete!`).use("s").end();
   getPackage(packagePath);
 }
 
