@@ -63,10 +63,11 @@ if (arv.includes("getCodes")) {
           // 检出预设置分支
           try {cProcess.execSync(`git branch ${branch}`);} catch (e) {}
         }
-        // 切换到预设值分支
-        cProcess.execSync(`git checkout ${branch}`);
-      } catch (e) {
-      }
+        try{
+          // 切换到预设值分支
+          cProcess.execSync(`git checkout ${branch}`);
+        } catch (e) {}
+      } catch (e) {}
       process.chdir(`${cwd}/${repertoryDirName}`);
     }
   });
@@ -78,7 +79,13 @@ function getPackage(list = []) {
   const baseConf = webpackConf.packageJson;
   const webpackConfAlias = {};
 
-  const confList = list.map(item => require(`${item}/package.json`));
+  const confList = list.map(item => {
+    try {
+      return require(`${item}/package.json`)
+    } catch (e) {
+      log("fail:").use("bw")(`try get '${item}/package.json' fail. it may be caused by empty repertory!`).use("w").end();
+    }
+  }).filter(item => item);
   // 根目录下的 package 主要是用于 安装依赖
   confList.forEach((conf, index) => {
     ["dependencies", "devDependencies"].forEach(item => {
@@ -111,14 +118,15 @@ function getPackage(list = []) {
       fs.writeFileSync(fullPath, conf.content);
       log("succ:").use("bs")(`write '${fullPath}' success!`).use("s").end();
     });
-  } catch (e) {}
+  } catch (e) {
+  }
 }
 
 function setWebPackConfAlias(conf, fullPath, packageJson) {
   const name = packageJson.name;
   const map = baseMap[name] || {};
-  if (/wxm/.test(name) || /(app-|-app`)/g.test(name)) {
-    const srcName = /wxm/.test(name) ? name : name.replace(/(app-|-app`)/g, "");
+  if (/wxm/.test(name) || /(app-|-app|pc-|-pc)/g.test(name)) {
+    const srcName = /wxm/.test(name) ? name : name.replace(/(app-|-app|pc-|-pc)/g, "");
     conf[`@${srcName}`] = `${fullPath}${map.src || ""}`;
     conf[`${name}`] = `${fullPath}`;
   } else {
