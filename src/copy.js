@@ -15,7 +15,5 @@ function _copy() {
   } else return this;
 }
 function copy(){return _copy.apply({},arguments);}
-try{
-  module.exports = copy;
-} catch(e){}
-export default copy;
+
+module.exports = copy;

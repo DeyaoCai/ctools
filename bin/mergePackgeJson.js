@@ -12,6 +12,7 @@ const webpackConf = require(`${cwd}/ctools.conf/webpack.conf.js`);
 const repertoryDirName = webpackConf.repertoryPath || "tem-biz";
 const baseMap = webpackConf.alias || {};
 
+const dir = require("../src/dir.js");
 
 if (arv.includes("updatePackageJson")) {
   getPackage();
@@ -29,6 +30,8 @@ if (arv.includes("getCodes")) {
   // 参数里面带不带 分支名
   const branchReg = /^--branch-/;
   const branchArv = arv.find(item => branchReg.test(item));
+
+  dir.mk(`${cwd}/${repertoryDirName}`);
   // 进入代码存放目录
   process.chdir(`${cwd}/${repertoryDirName}`);
   // 获取所有的代码仓库列表 // 所有代码都会拉下来；
