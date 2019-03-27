@@ -12,7 +12,6 @@ let webpackConf;
 try {
   webpackConf = require(`${cwd}/ctools.conf/webpack.conf.js`);
 } catch(e) {
-
   webpackConf = {};
 }
 const repertoryDirName = webpackConf.repertoryPath || "tem-biz";
@@ -48,7 +47,7 @@ if (arv.includes("getDependence")) {
   try{
     try {process.chdir(`${path.join(cwd, webpackConf.repertoryPath)}`);} catch (e) {}
     try {
-      cProcess.execSync(`${/tem/.test(webpackConf.repertoryPath) ? "" : "c"}npm install`);
+      cProcess.execSync(`${/tem/.test(webpackConf.repertoryPath) ? "" : "c"}npm i`);
     } catch (e) {log("succ:").use("bs")(`get dependence success!`).use("s").end();}
     try {process.chdir(`${cwd}`);}catch(e){}
   }catch (e) {
@@ -196,3 +195,29 @@ function setWebPackConfAlias(conf, fullPath, packageJson) {
 }
 
 
+function getAllPackageJsonInWorkSpace(rootPath){
+  const workSapceReg = /(^work-space-)|(sections)/;
+  const workSpaceListRoot = fs.readdirSync(rootPath);
+  const prevList = workSpaceListRoot.filter(item =>
+    workSapceReg.test(item) && !fs.statSync(path.join(rootPath, item)).isFile()
+  ).map(item =>
+    fs.readdirSync(path.join(rootPath, item))
+      .filter(key => !/^node_modules$/.test(key) && !fs.statSync(path.join(rootPath, item, key)).isFile())
+      .map(key => ({
+        name: require(path.join(rootPath, item, key, "package.json")).name,
+        path: path.join(rootPath, item, key)
+      }))
+  );
+  const list = [].concat.apply([], prevList);
+  const alias = {};
+  list.forEach(item => {
+    const oriSrcPath = path.join(item.path, "/src");
+    alias[`@${item.name}`] = fs.existsSync(oriSrcPath) || path.existsSync(oriSrcPath) ? oriSrcPath : item.path;
+    alias[item.name] =  item.path;
+  });
+  fs.writeFileSync(path.join(rootPath, "./ctools.conf/alias.json"),JSON.stringify({resolve: {extensions: ['.js', '.vue', '.json'], alias}}));
+  log.bs("succ").s(`write ${path.join(rootPath, "./ctools.conf/alias.json")} succ!`).end();
+}
+if (arv.includes("updataAllAlias")) {
+  getAllPackageJsonInWorkSpace(cwd);
+}
