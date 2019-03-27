@@ -26,7 +26,6 @@ if (arv.includes("getDemo")) {
 
   try{
     const sectionsPath = path.join(cwd, "./vue-dev-tool/sections");
-    console.log(sectionsPath);
     try {dir.mk(sectionsPath);}catch (e) {
       log.be("fail:").e(`mkDir ${sectionsPath}!`).end();
     }
@@ -48,8 +47,9 @@ if (arv.includes("updatePackageJson")) {
 if (arv.includes("getDependence")) {
   try{
     try {process.chdir(`${path.join(cwd, webpackConf.repertoryPath)}`);} catch (e) {}
-    try {cProcess.execSync(`cnpm i`);}
-    catch (e) {log("succ:").use("bs")(`get dependence success!`).use("s").end();}
+    try {
+      cProcess.execSync(`${/tem/.test(webpackConf.repertoryPath) ? "" : "c"}npm install`);
+    } catch (e) {log("succ:").use("bs")(`get dependence success!`).use("s").end();}
     try {process.chdir(`${cwd}`);}catch(e){}
   }catch (e) {
     log.be("fail").e("get dependence fail!").end();
@@ -124,10 +124,10 @@ function getPackage(list = []) {
       const package = require(`${item}/package.json`);
       try {
         if (mainRepertoryReg.test(item)) {
-          // const fullPath = path.join(item, "../package.json");
-          // fs.writeFileSync(fullPath, JSON.stringify(package));
+          const fullPath = path.join(item, "../package.json");
+          fs.writeFileSync(fullPath, JSON.stringify(package));
           dir.mk(path.join(item, "static"));
-          // log.bs(`succ:`).s(`write ${fullPath} succ!`).end();
+          log.bs(`succ:`).s(`write ${fullPath} succ!`).end();
         }
       }catch (e) {}
       return package;
@@ -152,11 +152,32 @@ function getPackage(list = []) {
       templateConfs = [templateConfs];
     }
     templateConfs.forEach(conf => {
-      const fullPath = `${cwd}${conf.outPutPath}`;
+      const fullPath = `${cwd}/${webpackConf.repertoryPath}/${conf.outPutPath}`;
+      dir.mk(fullPath.replace(/[\\\/][^\\\/]+[\.][^\\\/]+$/, ""));
       fs.writeFileSync(fullPath, conf.content);
       log("succ:").use("bs")(`write '${fullPath}' success!`).use("s").end();
     });
+  } catch (e) {}
+  try {
+    if (webpackConf.mainRepertory) {
+      const copyFilesByDirFromMainRepertory = webpackConf.copyFilesByDirFromMainRepertory;
+      const targetRootPath = path.join(cwd, webpackConf.repertoryPath);
+      const oriRootPath = path.join(targetRootPath, webpackConf.mainRepertory);
+      copyFilesByDirFromMainRepertory && copyFilesByDirFromMainRepertory.forEach(item => {
+        const midTargetRootPath = path.join(targetRootPath, item.target);
+        const midOriRootPath = path.join(oriRootPath, item.ori);
+        dir.mk(midTargetRootPath);
+        fs.readdirSync(midOriRootPath).forEach(key => {
+          fs.copyFileSync(
+            path.join(midOriRootPath, key),
+            path.join(midTargetRootPath, key)
+          )
+        })
+        log.bs("succ:").s(`copy file '${oriRootPath}' to '${targetRootPath}' success!`).end();
+      });
+    }
   } catch (e) {
+    log.be("fail:").e(`copy file '${oriRootPath}' to '${targetRootPath}' fail!`).end();
   }
 }
 
