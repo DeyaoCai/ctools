@@ -12,16 +12,37 @@ const webpackConf = require(`${cwd}/ctools.conf/webpack.conf.js`);
 const repertoryDirName = webpackConf.repertoryPath || "tem-biz";
 const baseMap = webpackConf.alias || {};
 
-const dir = require("../src/dir.js");
+const dir = require(path.join(__dirname, "../src/dir.js"));
 
 if (arv.includes("updatePackageJson")) {
-  getPackage();
+  fs.writeFileSync(`${cwd}/package.json`, JSON.stringify(webpackConf.packageJson));
   log("succ:").use("bs")(`update package success!`).use("s").end();
 }
 
 if (arv.includes("getDemo")) {
   cProcess.execSync(`git clone https://github.com/DeyaoCai/vue-dev-tool.git`);
   log("succ:").use("bs")(`clone https://github.com/DeyaoCai/vue-dev-tool.git success!`).use("s").end();
+
+  try{
+    const sectionsPath = path.join(__dirname, "./sections");
+    try {dir.mk(sectionsPath);}catch (e) {}
+    try {process.chdir(sectionsPath);} catch (e) {}
+    try {cProcess.execSync(`git clone https://github.com/DeyaoCai/ctools.git`);}
+    catch (e) {log("succ:").use("bs")(`git clone https://github.com/DeyaoCai/ctools.git success!`).use("s").end();}
+    try {process.chdir(`${cwd}`);}catch(e){}
+  }catch (e) {
+    log.be("fail").e("get dependence fail!").end();
+  }
+}
+if (arv.includes("getDependence")) {
+  try{
+    try {process.chdir(`${path.join(cwd, webpackConf.repertoryPath)}`);} catch (e) {}
+    try {cProcess.execSync(`cnpm i`);}
+    catch (e) {log("succ:").use("bs")(`get dependence success!`).use("s").end();}
+    try {process.chdir(`${cwd}`);}catch(e){}
+  }catch (e) {
+    log.be("fail").e("get dependence fail!").end();
+  }
 }
 
 // 拉取代码
@@ -37,7 +58,12 @@ if (arv.includes("getCodes")) {
   // 获取所有的代码仓库列表 // 所有代码都会拉下来；
   // 但是设置了disabled 属性的将不会写入别名
   const repertoryList = webpackConf.repertoryList.filter(item => !item.disabled);
-
+  const mainRepertory = webpackConf.mainRepertory;
+  if (!mainRepertory) {
+    log("tips").use("bt")("you 'd better set an main repertory if this work space need some dependence!").use("t").end();
+  } else if (!webpackConf.repertoryList.some(item => item.repertory.includes(mainRepertory))) {
+    log("warn").use("bw")("you set an main repertory but none of these repertories is  the one!").use("w").end();
+  }
   repertoryList.forEach(item => {
     const repertory = item.repertory;
     const userBranch = item.branch;
@@ -58,10 +84,9 @@ if (arv.includes("getCodes")) {
         process.chdir(outPutPath);
         const result = cProcess.execSync(`git branch -r`, {encoding: 'utf8'});
 
-        console.log(!branchRegExp.test(result))
         if (!branchRegExp.test(result)) {
           // 检出 master 分支
-          console.log('// 检出 master 分支')
+          log('// 检出 master 分支').use("t").end();
           try {cProcess.execSync(`git checkout master`);} catch (e) {}
           // 检出预设置分支
           try {cProcess.execSync(`git branch ${branch}`);} catch (e) {}
@@ -80,26 +105,25 @@ if (arv.includes("getCodes")) {
 
 function getPackage(list = []) {
   const baseConf = webpackConf.packageJson;
+  const {mainRepertory} = webpackConf;
   const webpackConfAlias = {};
-
+  const mainRepertoryReg = new RegExp(`[\\/]${mainRepertory}$`);
   const confList = list.map(item => {
     try {
-      return require(`${item}/package.json`)
+      const package = require(`${item}/package.json`);
+      try {
+        if (mainRepertoryReg.test(item)) {
+          // const fullPath = path.join(item, "../package.json");
+          // fs.writeFileSync(fullPath, JSON.stringify(package));
+          dir.mk(path.join(item, "static"));
+          // log.bs(`succ:`).s(`write ${fullPath} succ!`).end();
+        }
+      }catch (e) {}
+      return package;
     } catch (e) {
       log("fail:").use("bw")(`try get '${item}/package.json' fail. it may be caused by empty repertory!`).use("w").end();
     }
   }).filter(item => item);
-  // 根目录下的 package 主要是用于 安装依赖
-  confList.forEach((conf, index) => {
-    ["dependencies", "devDependencies"].forEach(item => {
-      const prop = conf[item];
-      prop && Object.keys(prop).forEach(key =>
-        (baseConf[item][key] = prop[key])
-      );
-    });
-  });
-  fs.writeFileSync(`${cwd}/package.json`, JSON.stringify(baseConf));
-  log("succ:").use("bs")(`write 'package.json' success!`).use("s").end();
 
   // 主要用于别名
   confList.forEach((conf, index) => {
