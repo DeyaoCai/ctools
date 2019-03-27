@@ -8,32 +8,43 @@ const readTemMainTemp = require("../src/readTemMainTemp.js");
 
 const cwd = process.cwd();
 const arv = process.argv;
-const webpackConf = require(`${cwd}/ctools.conf/webpack.conf.js`);
+let webpackConf;
+try {
+  webpackConf = require(`${cwd}/ctools.conf/webpack.conf.js`);
+} catch(e) {
+
+  webpackConf = {};
+}
 const repertoryDirName = webpackConf.repertoryPath || "tem-biz";
 const baseMap = webpackConf.alias || {};
 
 const dir = require(path.join(__dirname, "../src/dir.js"));
-
-if (arv.includes("updatePackageJson")) {
-  fs.writeFileSync(`${cwd}/package.json`, JSON.stringify(webpackConf.packageJson));
-  log("succ:").use("bs")(`update package success!`).use("s").end();
-}
 
 if (arv.includes("getDemo")) {
   cProcess.execSync(`git clone https://github.com/DeyaoCai/vue-dev-tool.git`);
   log("succ:").use("bs")(`clone https://github.com/DeyaoCai/vue-dev-tool.git success!`).use("s").end();
 
   try{
-    const sectionsPath = path.join(__dirname, "./sections");
-    try {dir.mk(sectionsPath);}catch (e) {}
-    try {process.chdir(sectionsPath);} catch (e) {}
+    const sectionsPath = path.join(cwd, "./vue-dev-tool/sections");
+    console.log(sectionsPath);
+    try {dir.mk(sectionsPath);}catch (e) {
+      log.be("fail:").e(`mkDir ${sectionsPath}!`).end();
+    }
+    try {process.chdir(sectionsPath);} catch (e) {
+      log.be("fail:").e(`cd ${sectionsPath}!`).end();
+    }
     try {cProcess.execSync(`git clone https://github.com/DeyaoCai/ctools.git`);}
     catch (e) {log("succ:").use("bs")(`git clone https://github.com/DeyaoCai/ctools.git success!`).use("s").end();}
     try {process.chdir(`${cwd}`);}catch(e){}
   }catch (e) {
-    log.be("fail").e("get dependence fail!").end();
+    log.be("fail").e("get getDemo fail!").end();
   }
 }
+if (arv.includes("updatePackageJson")) {
+  fs.writeFileSync(`${cwd}/package.json`, JSON.stringify(webpackConf.packageJson));
+  log("succ:").use("bs")(`update package success!`).use("s").end();
+}
+
 if (arv.includes("getDependence")) {
   try{
     try {process.chdir(`${path.join(cwd, webpackConf.repertoryPath)}`);} catch (e) {}
