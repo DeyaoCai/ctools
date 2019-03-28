@@ -125,7 +125,7 @@ function getPackage(list = []) {
         if (mainRepertoryReg.test(item)) {
           const fullPath = path.join(item, "../package.json");
           fs.writeFileSync(fullPath, JSON.stringify(package));
-          dir.mk(path.join(item, "static"));
+          dir.mk(path.join(item, "../static"));
           log.bs(`succ:`).s(`write ${fullPath} succ!`).end();
         }
       }catch (e) {}
@@ -152,11 +152,13 @@ function getPackage(list = []) {
     }
     templateConfs.forEach(conf => {
       const fullPath = `${cwd}/${webpackConf.repertoryPath}/${conf.outPutPath}`;
-      dir.mk(fullPath.replace(/[\\\/][^\\\/]+[\.][^\\\/]+$/, ""));
-      fs.writeFileSync(fullPath, conf.content);
+      // 有一种文件叫做 点开头的文件。 不要把他当成文件夹
+      if (!/^\..+$/.test(conf.outPutPath.split(/[\/\\]+/).pop())) dir.mk(fullPath.replace(/[\\\/][^\\\/]+[\.][^\\\/]+$/, ""));
+      conf.content && fs.writeFileSync(fullPath, conf.content);
+      conf.inputPath && fs.copyFileSync(conf.inputPath, fullPath);
       log("succ:").use("bs")(`write '${fullPath}' success!`).use("s").end();
     });
-  } catch (e) {}
+  } catch (e) {console.log(e)}
   try {
     if (webpackConf.mainRepertory) {
       const copyFilesByDirFromMainRepertory = webpackConf.copyFilesByDirFromMainRepertory;
