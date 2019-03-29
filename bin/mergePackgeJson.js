@@ -158,7 +158,7 @@ function getPackage(list = []) {
       conf.inputPath && fs.copyFileSync(conf.inputPath, fullPath);
       log("succ:").use("bs")(`write '${fullPath}' success!`).use("s").end();
     });
-  } catch (e) {console.log(e)}
+  } catch (e) {}
   try {
     if (webpackConf.mainRepertory) {
       const copyFilesByDirFromMainRepertory = webpackConf.copyFilesByDirFromMainRepertory;
