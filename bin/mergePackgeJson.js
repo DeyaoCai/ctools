@@ -126,6 +126,7 @@ function getPackage(list = []) {
           const fullPath = path.join(item, "../package.json");
           fs.writeFileSync(fullPath, JSON.stringify(package));
           dir.mk(path.join(item, "../static"));
+          dir.mk(path.join(item, "./static"));
           log.bs(`succ:`).s(`write ${fullPath} succ!`).end();
         }
       }catch (e) {}
@@ -158,7 +159,7 @@ function getPackage(list = []) {
       conf.inputPath && fs.copyFileSync(conf.inputPath, fullPath);
       log("succ:").use("bs")(`write '${fullPath}' success!`).use("s").end();
     });
-  } catch (e) {console.log(e)}
+  } catch (e) {}
   try {
     if (webpackConf.mainRepertory) {
       const copyFilesByDirFromMainRepertory = webpackConf.copyFilesByDirFromMainRepertory;
@@ -204,7 +205,7 @@ function getAllPackageJsonInWorkSpace(rootPath){
     workSapceReg.test(item) && !fs.statSync(path.join(rootPath, item)).isFile()
   ).map(item =>
     fs.readdirSync(path.join(rootPath, item))
-      .filter(key => !/^node_modules$/.test(key) && !fs.statSync(path.join(rootPath, item, key)).isFile())
+      .filter(key => !/^(node_modules|static|build|config|src)$/.test(key) && !fs.statSync(path.join(rootPath, item, key)).isFile())
       .map(key => ({
         name: require(path.join(rootPath, item, key, "package.json")).name,
         path: path.join(rootPath, item, key)
@@ -214,7 +215,7 @@ function getAllPackageJsonInWorkSpace(rootPath){
   const alias = {};
   list.forEach(item => {
     const oriSrcPath = path.join(item.path, "/src");
-    alias[`@${item.name}`] = fs.existsSync(oriSrcPath) || path.existsSync(oriSrcPath) ? oriSrcPath : item.path;
+    alias[`@${item.name}`] = fs.existsSync(oriSrcPath) ? oriSrcPath : item.path;
     alias[item.name] =  item.path;
   });
   fs.writeFileSync(path.join(rootPath, "./ctools.conf/alias.json"),JSON.stringify({resolve: {extensions: ['.js', '.vue', '.json'], alias}}));
