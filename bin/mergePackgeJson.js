@@ -47,7 +47,20 @@ if (arv.includes("getDependence")) {
   try{
     try {process.chdir(`${path.join(cwd, webpackConf.repertoryPath)}`);} catch (e) {}
     try {
-      cProcess.execSync(`${/tem/.test(webpackConf.repertoryPath) ? "" : "c"}npm i`);
+      const out = cProcess.exec(`${/tem/.test(webpackConf.repertoryPath) ? "" : "c"}npm i`, {
+        maxBuffer: 2000*1024,
+      },e => {
+        if (e) console.log(e);
+      });
+      out.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+      });
+      out.stderr.on('data', (data) => {
+        console.log(`stderr: ${data}`);
+      });
+      out.on('close', (code) => {
+        console.log(`子进程退出码：${code}`);
+      });
     } catch (e) {log("succ:").use("bs")(`get dependence success!`).use("s").end();}
     try {process.chdir(`${cwd}`);}catch(e){}
   }catch (e) {
